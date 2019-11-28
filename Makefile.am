@@ -17,9 +17,13 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = \
-	utils \
-	boot-analysis \
+SUBDIRS = utils
+
+if HAVE_BOOT_ANALYSIS
+SUBDIRS += boot-analysis
+endif
+
+SUBDIRS += \
 	boot-benchmark \
 	max-disks \
 	qemu-boot \

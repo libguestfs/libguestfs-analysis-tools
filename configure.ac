@@ -89,6 +89,11 @@ dnl Define a macro referring to podwrapper.pl.
 PODWRAPPER="$PERL $(pwd)/podwrapper.pl"
 AC_SUBST([PODWRAPPER])
 
+dnl Only build boot-analysis program on x86-64 and aarch64.  It
+dnl requires custom work to port to each architecture.
+AM_CONDITIONAL([HAVE_BOOT_ANALYSIS],
+               [test "$host_cpu" = "x86_64" || test "$host_cpu" = "aarch64"])
+
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile
                  boot-analysis/Makefile
