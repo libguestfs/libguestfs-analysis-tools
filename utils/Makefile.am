@@ -17,38 +17,18 @@
 
 include $(top_srcdir)/subdir-rules.mk
 
-EXTRA_DIST = boot-analysis.pod
+noinst_LTLIBRARIES = libutils.la
 
-noinst_PROGRAMS = boot-analysis
-
-boot_analysis_SOURCES = \
-	boot-analysis.c \
-	boot-analysis.h \
-	boot-analysis-timeline.c \
-	boot-analysis-utils.c \
-	boot-analysis-utils.h
-boot_analysis_CPPFLAGS = \
-	-I$(top_srcdir)/utils -I$(top_builddir)/utils \
-	-I$(top_srcdir)/lib -I$(top_builddir)/lib
-boot_analysis_CFLAGS = \
+libutils_la_SOURCES = \
+	cleanups.c \
+	cleanups.h \
+	estimate-max-threads.c \
+	estimate-max-threads.h \
+	utils.c \
+	utils.h
+libutils_la_CFLAGS = \
 	-pthread \
-	$(WARN_CFLAGS) $(WERROR_CFLAGS) \
-	$(PCRE_CFLAGS) \
-	$(LIBGUESTFS_CFLAGS)
-boot_analysis_LDADD = \
-	$(top_builddir)/utils/libutils.la \
-	$(LIBGUESTFS_LIBS) \
-	$(PCRE_LIBS) \
+	$(WARN_CFLAGS) $(WERROR_CFLAGS)
+libutils_la_LIBADD = \
 	$(LTLIBINTL) \
 	-lm
-
-# Manual page.
-# It should be noinst_MANS but that doesn't work.
-noinst_DATA = boot-analysis.1
-
-boot-analysis.1: boot-analysis.pod
-	$(PODWRAPPER) \
-	  --man $@ \
-	  --license GPLv2+ \
-	  --warning safe \
-	  $<

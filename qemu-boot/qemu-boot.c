@@ -35,11 +35,10 @@
 #include <error.h>
 #include <pthread.h>
 
-#include "guestfs.h"
-#include "guestfs-utils.h"
-#include "estimate-max-threads.h"
+#include <guestfs.h>
 
-#include "getprogname.h"
+#include "utils.h"
+#include "estimate-max-threads.h"
 
 #define MIN(a,b) ((a)<(b)?(a):(b))
 
@@ -206,7 +205,7 @@ run_test (size_t P)
     err = pthread_join (threads[i], &status);
     if (err != 0) {
       fprintf (stderr, "%s: pthread_join[%zu]: %s\n",
-               getprogname (), i, strerror (err));
+               "qemu-boot", i, strerror (err));
       errors++;
     }
     if (*(int *)status == -1)
@@ -237,7 +236,7 @@ start_thread (void *thread_data_vp)
     err = pthread_mutex_lock (&mutex);
     if (err != 0) {
       fprintf (stderr, "%s: pthread_mutex_lock: %s",
-               getprogname (), strerror (err));
+               "qemu-boot", strerror (err));
       goto error;
     }
 
@@ -254,7 +253,7 @@ start_thread (void *thread_data_vp)
     err = pthread_mutex_unlock (&mutex);
     if (err != 0) {
       fprintf (stderr, "%s: pthread_mutex_unlock: %s",
-               getprogname (), strerror (err));
+               "qemu-boot", strerror (err));
       goto error;
     }
 
@@ -322,7 +321,7 @@ start_thread (void *thread_data_vp)
 
   if (errors > 0) {
     fprintf (stderr, "%s: thread %d: %u errors were ignored\n",
-             getprogname (), thread_data->thread_num, errors);
+             "qemu-boot", thread_data->thread_num, errors);
     goto error;
   }
 

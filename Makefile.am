@@ -1,5 +1,5 @@
 # libguestfs
-# Copyright (C) 2011-2019 Red Hat Inc.
+# Copyright (C) 2009-2019 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,19 +15,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-include $(top_srcdir)/subdir-rules.mk
+ACLOCAL_AMFLAGS = -I m4
 
-noinst_PROGRAMS = qemu-boot
-
-qemu_boot_SOURCES = \
-	qemu-boot.c
-qemu_boot_CPPFLAGS = \
-	-I$(top_srcdir)/utils -I$(top_builddir)/utils
-qemu_boot_CFLAGS = \
-	-pthread \
-	$(WARN_CFLAGS) $(WERROR_CFLAGS) \
-	$(LIBGUESTFS_CFLAGS)
-qemu_boot_LDADD = \
-	$(top_builddir)/utils/libutils.la \
-	$(LIBGUESTFS_LIBS) \
-	$(LTLIBINTL)
+SUBDIRS = \
+	utils \
+	boot-analysis \
+	boot-benchmark \
+	max-disks \
+	qemu-boot \
+	qemu-speed-test

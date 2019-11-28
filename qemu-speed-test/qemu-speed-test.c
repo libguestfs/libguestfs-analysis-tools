@@ -35,13 +35,13 @@
 #include <getopt.h>
 #include <unistd.h>
 #include <signal.h>
+#include <limits.h>
 #include <assert.h>
 #include <sys/time.h>
 
-#include "guestfs.h"
-#include "guestfs-utils.h"
+#include <guestfs.h>
 
-#include "getprogname.h"
+#include "utils.h"
 
 static void test_virtio_serial (void);
 static void test_block_device (void);
@@ -135,7 +135,8 @@ main (int argc, char *argv[])
       }
       else {
         fprintf (stderr, "%s: unknown long option: %s (%d)\n",
-                 getprogname (), long_options[option_index].name, option_index);
+                 "qemu-speed-test",
+                 long_options[option_index].name, option_index);
         exit (EXIT_FAILURE);
       }
       break;
@@ -144,7 +145,7 @@ main (int argc, char *argv[])
       if (sscanf (optarg, "%d", &max_time_override) != 1 ||
           max_time_override < 0) {
         fprintf (stderr, "%s: -t: argument is not a positive integer\n",
-                 getprogname ());
+                 "qemu-speed-test");
         exit (EXIT_FAILURE);
       }
       break;
@@ -159,7 +160,7 @@ main (int argc, char *argv[])
 
   if (optind != argc) {
     fprintf (stderr, "%s: extra arguments found on the command line\n",
-             getprogname ());
+             "qemu-speed-test");
     exit (EXIT_FAILURE);
   }
 
@@ -314,14 +315,14 @@ test_virtio_serial (void)
     if (r == -1 && guestfs_last_errno (g) != EINTR) {
       fprintf (stderr,
                "%s: expecting upload command to return EINTR\n%s\n",
-               getprogname (), guestfs_last_error (g));
+               "qemu-speed-test", guestfs_last_error (g));
       exit (EXIT_FAILURE);
     }
 
     if (rate == -1) {
     rate_error:
       fprintf (stderr, "%s: internal error: progress callback was not called! (r=%d, errno=%d)\n",
-               getprogname (),
+               "qemu-speed-test",
                r, guestfs_last_errno (g));
       exit (EXIT_FAILURE);
     }
@@ -350,7 +351,7 @@ test_virtio_serial (void)
     if (r == -1 && guestfs_last_errno (g) != EINTR) {
       fprintf (stderr,
                "%s: expecting download command to return EINTR\n%s\n",
-               getprogname (), guestfs_last_error (g));
+               "qemu-speed-test", guestfs_last_error (g));
       exit (EXIT_FAILURE);
     }
 
@@ -419,7 +420,7 @@ test_block_device (void)
     exit (EXIT_FAILURE);
   if (devices[0] == NULL) {
     fprintf (stderr, "%s: expected guestfs_list_devices to return at least 1 device\n",
-             getprogname ());
+             "qemu-speed-test");
     exit (EXIT_FAILURE);
   }
 
@@ -435,7 +436,7 @@ test_block_device (void)
 
     if (sscanf (r, "%" SCNi64, &bytes_written) != 1) {
       fprintf (stderr, "%s: could not parse device_speed output\n",
-               getprogname ());
+               "qemu-speed-test");
       exit (EXIT_FAILURE);
     }
 
@@ -454,7 +455,7 @@ test_block_device (void)
 
     if (sscanf (r, "%" SCNi64, &bytes_read) != 1) {
       fprintf (stderr, "%s: could not parse device_speed output\n",
-               getprogname ());
+               "qemu-speed-test");
       exit (EXIT_FAILURE);
     }
 

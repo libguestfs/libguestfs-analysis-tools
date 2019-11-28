@@ -22,16 +22,11 @@ noinst_PROGRAMS = qemu-speed-test
 qemu_speed_test_SOURCES = \
 	qemu-speed-test.c
 qemu_speed_test_CPPFLAGS = \
-	-I$(top_srcdir)/gnulib/lib -I$(top_builddir)/gnulib/lib \
-	-I$(top_srcdir)/common/utils -I$(top_builddir)/common/utils \
-	-I$(top_srcdir)/lib -I$(top_builddir)/lib \
-	-I$(top_srcdir)/df
+	-I$(top_srcdir)/utils -I$(top_builddir)/utils
 qemu_speed_test_CFLAGS = \
-	$(WARN_CFLAGS) $(WERROR_CFLAGS)
+	$(WARN_CFLAGS) $(WERROR_CFLAGS) \
+	$(LIBGUESTFS_CFLAGS)
 qemu_speed_test_LDADD = \
-	$(top_builddir)/common/utils/libutils.la \
-	$(top_builddir)/lib/libguestfs.la \
-	$(LIBXML2_LIBS) \
-	$(LIBVIRT_LIBS) \
-	$(LTLIBINTL) \
-	$(top_builddir)/gnulib/lib/libgnu.la
+	$(top_builddir)/utils/libutils.la \
+	$(LIBGUESTFS_LIBS) \
+	$(LTLIBINTL)

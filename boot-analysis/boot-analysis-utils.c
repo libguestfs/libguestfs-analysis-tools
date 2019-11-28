@@ -24,10 +24,9 @@
 #include <error.h>
 #include <errno.h>
 
-#include "ignore-value.h"
+#include <guestfs.h>
 
-#include "guestfs.h"
-#include "guestfs-utils.h"
+#include "utils.h"
 
 #include "boot-analysis-utils.h"
 
@@ -56,16 +55,16 @@ test_info (guestfs_h *g, int nr_test_passes)
   CLEANUP_FREE char *backend = NULL;
 
   /* Related to the test program. */
-  printf ("test version: %s %s\n", PACKAGE_NAME, PACKAGE_VERSION_FULL);
+  printf ("test version: %s %s\n", PACKAGE_NAME, PACKAGE_VERSION);
   printf (" test passes: %d\n", nr_test_passes);
 
   /* Related to the host. */
   printf ("host version: ");
   fflush (stdout);
-  ignore_value (system ("uname -a"));
+  system ("uname -a");
   printf ("    host CPU: ");
   fflush (stdout);
-  ignore_value (system ("perl -n -e 'if (/^model name.*: (.*)/) { print \"$1\\n\"; exit }' /proc/cpuinfo"));
+  system ("perl -n -e 'if (/^model name.*: (.*)/) { print \"$1\\n\"; exit }' /proc/cpuinfo");
 
   /* Related to qemu. */
   backend = guestfs_get_backend (g);
@@ -76,7 +75,7 @@ test_info (guestfs_h *g, int nr_test_passes)
   fflush (stdout);
   if (asprintf (&cmd, "%s -version", qemu) == -1)
     error (EXIT_FAILURE, errno, "asprintf");
-  ignore_value (system (cmd));
+  system (cmd);
   printf ("         smp: %-20d [to change use --smp option]\n",
           guestfs_get_smp (g));
   printf ("     memsize: %-20d [to change use --memsize option]\n",

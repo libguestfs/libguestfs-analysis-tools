@@ -30,10 +30,9 @@
 
 #include <pcre.h>
 
-#include "ignore-value.h"
+#include <guestfs.h>
 
-#include "guestfs.h"
-#include "guestfs-utils.h"
+#include "utils.h"
 
 #include "boot-analysis.h"
 

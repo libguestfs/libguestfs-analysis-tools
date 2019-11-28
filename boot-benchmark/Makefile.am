@@ -30,18 +30,15 @@ boot_benchmark_SOURCES = \
 	../boot-analysis/boot-analysis-utils.c \
 	../boot-analysis/boot-analysis-utils.h
 boot_benchmark_CPPFLAGS = \
-	-I$(top_srcdir)/gnulib/lib -I$(top_builddir)/gnulib/lib \
-	-I$(top_srcdir)/common/utils -I$(top_builddir)/common/utils \
-	-I$(top_srcdir)/lib -I$(top_builddir)/lib \
-	-I$(top_srcdir)/utils/boot-analysis
+	-I$(top_srcdir)/utils -I$(top_builddir)/utils \
+	-I$(top_srcdir)/boot-analysis
 boot_benchmark_CFLAGS = \
-	$(WARN_CFLAGS) $(WERROR_CFLAGS)
+	$(WARN_CFLAGS) $(WERROR_CFLAGS) \
+	$(LIBGUESTFS_CFLAGS)
 boot_benchmark_LDADD = \
-	$(top_builddir)/common/utils/libutils.la \
-	$(top_builddir)/lib/libguestfs.la \
-	$(LIBXML2_LIBS) \
+	$(top_builddir)/utils/libutils.la \
+	$(LIBGUESTFS_LIBS) \
 	$(LTLIBINTL) \
-	$(top_builddir)/gnulib/lib/libgnu.la \
 	-lm
 
 # Manual page.
